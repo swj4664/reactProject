@@ -1,11 +1,13 @@
 import './App.css';
 import axios from 'axios';
-
+import Search from '../src/components/Search';
+import KakaoMap from '../src/components/KakaoMap';
 function App() {
   return (
-    <div>
-      test
-    </div>
+    <>
+      <a href=""><Search /></a>
+      <KakaoMap />
+    </>
   );
 }
 
