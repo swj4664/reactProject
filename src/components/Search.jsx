@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-function SearchFetch(){
+function SearchFetch({receiveData}){
     const [data, setData] = useState({ items: [] });
     const [query, setQuery] = useState("포항시");
 
@@ -19,6 +19,7 @@ function SearchFetch(){
         if (!completed){
             console.log(result.data.response.body.items);
             setData(result.data.response.body || {items : []});
+            receiveData(result.data.response.body.items)
         }else{
             console.log(completed);
         }
