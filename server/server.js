@@ -28,14 +28,10 @@ app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });
 
-
 app.get("/data", (req, res) => {
-    // console.log(`${req.query.name}`);
     res.header("Access-Control-Allow-Origin", "*");
-    
-    const sqlQuery = `select * from 전국도서관표준데이터 where lbrryNm like '%${req.query.name}%'`;
-
+    const sqlQuery = `select * from 전국도서관표준데이터 where signguNm like '%${req.query.name}%'`;
     db.query(sqlQuery, (err, result) => {
-        res.send(result);
+        res.send({items:result});
     });
 });

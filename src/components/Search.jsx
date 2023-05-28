@@ -36,8 +36,9 @@ function SearchFetch() {
           }
         );
         if (!completed) {
-          console.log(result.data)
-          setData({ items: result.data || [] });
+          // console.log(result.data)
+          setData(result.data || { items: [] })
+          // setData(result.data.response.body || { items: [] });
         } else {
         }
       } catch (error) {
