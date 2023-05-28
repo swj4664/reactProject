@@ -33,9 +33,8 @@ function SearchFetch() {
           }
         );
         if (!completed) {
-          console.log(result.data)
-          console.log(data)
-          // setData(result.data || { items: [] })
+          // console.log(result.data)
+          setData(result.data || { items: [] })
           // setData(result.data.response.body || { items: [] });
         } else {
         }
