@@ -5,7 +5,7 @@ import { Link, useParams, useLocation } from 'react-router-dom'
 
 function SearchFetch() {
   const [data, setData] = useState({ items: [] });
-  const [query, setQuery] = useState("포항시");
+  const [query, setQuery] = useState("포항");
 
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,13 +25,19 @@ function SearchFetch() {
     async function get() {
       try {
         const result = await axios.get(
-          `http://api.data.go.kr/openapi/tn_pubr_public_lbrry_api?serviceKey=efSREml9J5VV3VB7rUN3F1QrndFlWhJWdlTOrfPyf5al8SixYeyO%2FhQJIk9GdSCIHklk5t6iomUE6jj9uRTkZA%3D%3D&pageNo=1&numOfRows=100&type=json&SIGNGU_NM=${query}`
+          'http://localhost:3001/data',
+          {
+            params : {
+              name : query
+            }
+          }
         );
         if (!completed) {
-          // console.log(result.data.response.body.items);
-          setData(result.data.response.body || { items: [] });
+          console.log(result.data)
+          console.log(data)
+          // setData(result.data || { items: [] })
+          // setData(result.data.response.body || { items: [] });
         } else {
-          // console.log(completed);
         }
       } catch (error) {
         console.log(error);
@@ -55,11 +61,12 @@ function SearchFetch() {
 
   return (
     <>
-      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      <input value={query} onChange={(e) => {setQuery(e.target.value); setCurrentPage(1)}} />
       <ul>
         {currentPageData &&
-          currentPageData.map((value, index) => (
-            <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}`} key={index}>
+          currentPageData
+          .map((value, index) => (
+            <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
               <li>{value.lbrryNm} : {value.closeDay}</li>
             </Link>
           ))}
@@ -99,14 +106,14 @@ function Detail() {
   const closeDay = searchParams.get('closeDay');
   const longitude = searchParams.get('longitude');
   const latitude = searchParams.get('latitude');
+  const address = searchParams.get('address');
 
   return (
     <>
       도서관 내용
       <p>도서관 이름: {name}</p>
+      <p>주소: {address}</p>
       <p>휴관일: {closeDay}</p>
-      <p>경도 : {longitude}</p>
-      <p>위도 : {latitude}</p>
       <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
     </>
   );
