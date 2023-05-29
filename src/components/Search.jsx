@@ -8,6 +8,7 @@ function SearchFetch() {
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState("");
 
+
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
@@ -15,8 +16,9 @@ function SearchFetch() {
   const endItem = startItem + itemsPerPage;
   const currentPageData = data.items ? data.items.slice(startItem, endItem)  : [];// 현재 페이지에 보여지는 리스트 //data 상태가 비어있을대 빈배열로 설정
   const pageCount = Math.ceil((data.items?.length || 0) / itemsPerPage) // data.items가 undefiend면 0을 출력
-
-
+  const maxVisibleButtons = 10;
+  const maxPage = Math.min(pageCount, currentPage + Math.floor(maxVisibleButtons / 2)); // 최대 페이지 버튼 번호
+  const minPage = Math.max(1, maxPage - maxVisibleButtons + 1); // 최소 페이지 버튼 번호
 
   //useEffect는 비동기적으로 동작
   useEffect(() => {
@@ -35,9 +37,8 @@ function SearchFetch() {
           }
         );
         if (!completed) {
-          // console.log(result.data)
-          setData(result.data || { items: [] })
-          // setData(result.data.response.body || { items: [] });
+          console.log(result.data)
+          setData({ items: result.data || [] });
         } else {
         }
       } catch (error) {
@@ -51,7 +52,6 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
-
   const handleQueryChange = (event) => {
     console.log(event);
     setQuery(event.target.value);
@@ -63,11 +63,31 @@ function SearchFetch() {
   }
   function pageBtn(){
     const result = [];
-    for(let i = 0; i < pageCount; i++){
-      
-      result.push(<button key={i} onClick={()=> setCurrentPage(i+1)}>{i+1}</button>)
+    const maxVisibleButtons = 10; // 최대 보이는 페이지 버튼 수
+    let minPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2)); // 최소 페이지 버튼 번호
+    const maxPage = Math.min(minPage + maxVisibleButtons - 1, pageCount); // 최대 페이지 버튼 번호
+
+    if (maxPage - minPage < maxVisibleButtons - 1) {
+      minPage = Math.max(1, maxPage - maxVisibleButtons + 1);
     }
-    return result
+
+    for (let i = minPage; i <= maxPage; i++) {
+      result.push(
+        <button
+          key={i}
+          value={i}
+          onClick={() => setCurrentPage(i)}
+          style={{
+            backgroundColor: currentPage === i ? 'pink' : 'white',
+            color: currentPage === i ? 'white' : 'initial'
+          }}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return result;
   }
 
   return (
@@ -82,25 +102,29 @@ function SearchFetch() {
       <ul>
         {currentPageData &&
           currentPageData
-          .map((value, index) => (
-            <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
-              <li>{value.lbrryNm} : {value.closeDay}</li>
-            </Link>
-          ))}
+            .map((value, index) => (
+              <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
+                <li>{value.lbrryNm} : {value.closeDay}</li>
+              </Link>
+            ))}
       </ul>
 
-      
-      <button onClick={()=>setCurrentPage(currentPage-1)} disabled={currentPage===1}>
+
+      <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>처음으로</button >
+      <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10): null}  disabled={currentPage <= 10}>&lt;&lt;</button>
+      <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
         이전 페이지
       </button>
       {pageBtn()}
-      <button onClick={()=>setCurrentPage(currentPage+1)} disabled={currentPage===pageCount}>
+      <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageCount}>
         다음 페이지
       </button>
+      <button onClick={() => currentPage <= pageCount-10 ? setCurrentPage(currentPage + 10): null} disabled={currentPage > pageCount-10}>&gt;&gt;</button>
+      <button onClick={() => setCurrentPage(pageCount)} disabled={currentPage === pageCount}>마지막으로</button>
     </>
   );
 
- 
+
 
 }
 /**
