@@ -34,4 +34,4 @@ app.get("/data", (req, res) => {
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});
     });
-});
+}); 
