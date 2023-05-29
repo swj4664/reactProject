@@ -38,8 +38,6 @@ app.get("/data", (req, res) => {
     }else if(searchType === 'region'){
         sqlQuery = `select * from 전국도서관표준데이터 where signguNm like '%${req.query.name}%'`;
     }
-    
-
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});
     });
