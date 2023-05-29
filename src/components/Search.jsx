@@ -82,6 +82,7 @@ function SearchFetch() {
   }
 
   let [titleHover, setTitleHover] = useState();
+  
 
   return (
     <>
@@ -125,17 +126,17 @@ function SearchFetch() {
         </div>
 
         <div className='button_G'>
-          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>처음</button >
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 7}>처음</button >
           <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10) : null} disabled={currentPage <= 10}>&lt;&lt;</button>
           <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
             &lt;
           </button>
           {pageBtn()}
-          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageCount}>
+          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageCount || data.items.length == 0}>
             &gt;
           </button>
           <button onClick={() => currentPage <= pageCount - 10 ? setCurrentPage(currentPage + 10) : null} disabled={currentPage > pageCount - 10}>&gt;&gt;</button>
-          <button onClick={() => setCurrentPage(pageCount)} disabled={currentPage === pageCount}>끝</button>
+          <button onClick={() => setCurrentPage(pageCount)} disabled={currentPage === pageCount || data.items.length == 0 || pageCount < 11}>끝</button>
         </div>
       </div>
 

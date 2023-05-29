@@ -94,11 +94,8 @@ h2 {
 .content .list_G tbody tr td {
     padding: 24px;
     white-space: nowrap;
-    /* 텍스트가 한 줄로 유지됨 */
     text-overflow: ellipsis;
-    /* 말줄임 표시 */
     overflow: hidden;
-    /* 내용이 넘칠 경우 감춤 */
 }
 
 .content .list_G tbody tr td:nth-child(2),
