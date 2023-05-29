@@ -29,8 +29,17 @@ app.listen(PORT, () => {
 });
 
 app.get("/data", (req, res) => {
+    let searchType = req.query.type;
+    console.log(searchType);
+    let sqlQuery ="";
     res.header("Access-Control-Allow-Origin", "*");
-    const sqlQuery = `select * from 전국도서관표준데이터 where signguNm like '%${req.query.name}%'`;
+    if(searchType === 'bookNn'){
+        sqlQuery = `select * from 전국도서관표준데이터 where lbrryNm like '%${req.query.name}%'`;
+    }else if(searchType === 'region'){
+        sqlQuery = `select * from 전국도서관표준데이터 where signguNm like '%${req.query.name}%'`;
+    }
+    
+
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});
     });

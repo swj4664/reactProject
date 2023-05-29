@@ -7,6 +7,7 @@ import '../css/Search.css'
 function SearchFetch() {
   const [data, setData] = useState({ items: [] });
   const [query, setQuery] = useState("");
+  const [Selected, setSelected] = useState("");
 
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,8 +32,9 @@ function SearchFetch() {
         const result = await axios.get(
           'http://localhost:3001/data',
           {
-            params: {
-              name: query
+            params : {
+              name : query,
+              type : Selected
             }
           }
         );
@@ -52,7 +54,17 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
-  function pageBtn() {
+
+  const handleQueryChange = (event) => {
+    console.log(event);
+    setQuery(event.target.value);
+    setCurrentPage(1);
+  }
+
+  const handleSelectChange = (event) => {
+    setSelected(event.target.value);
+  }
+  function pageBtn(){
     const result = [];
     const maxVisibleButtons = 10; // 최대 보이는 페이지 버튼 수
     let minPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2)); // 최소 페이지 버튼 번호
