@@ -7,6 +7,7 @@
 
 :root {
     --sub-color: #B6B6B6;
+    --point-color: #62d4ad;
 }
 
 body {
@@ -18,7 +19,7 @@ table {
     border-collapse: collapse
 }
 
-h2 {
+.title {
     text-align: center;
     margin: 100px 0 0 0;
     font-size: 50px;
@@ -37,13 +38,20 @@ h2 {
 }
 
 .content .input_G .input_box {
-    width: 700px;
+    width: 320px;
     height: 60px;
     border-radius: 60px;
     font-size: 20px;
+    font-weight: 700;
     padding: 0 70px;
     border: 1px solid var(--sub-color);
     outline: none;
+    transition: width .5s ease;
+}
+
+.content .input_G .input_box:focus {
+    width: 700px;
+    border: 2px solid var(--point-color);
 }
 
 .content .input_G .input_box::placeholder {
@@ -76,7 +84,7 @@ h2 {
 }
 
 .content .list_G table col:nth-child(2) {
-    width: 50%;
+    width: 49%;
 }
 
 .content .list_G thead {
@@ -89,7 +97,7 @@ h2 {
 
 .content .list_G tbody tr {
     border-bottom: 1px solid #dddddd;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 .content .list_G tbody tr td {
@@ -127,7 +135,7 @@ h2 {
 }
 
 .titleHover_bg {
-    background-color: #f7f7f7;
+    background-color: #effcf7;
 }
 
 .content .button_G button {
@@ -144,4 +152,8 @@ h2 {
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
+}
+
+.content .button_G button:hover {
+    font-weight: 700;
 }
