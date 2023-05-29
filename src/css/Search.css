@@ -89,6 +89,7 @@ h2 {
 
 .content .list_G tbody tr {
     border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease;
 }
 
 .content .list_G tbody tr td {
