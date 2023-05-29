@@ -166,6 +166,7 @@ function SearchFetch() {
             ))}
       </ul>
       <h2>모두의 도서관</h2>
+      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
         <select onChange={handleSelectChange} defaultValue="bookNn"> 
@@ -196,7 +197,7 @@ function SearchFetch() {
                   .map((value, index) => (
                     <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
                       <td>
-                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}`} key={index}>
+                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
                           {value.lbrryNm}
                         </Link>
                       </td>
@@ -209,7 +210,7 @@ function SearchFetch() {
         </div>
 
         <div className='button_G'>
-          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 7}>처음</button >
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 2}>처음</button >
           <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10) : null} disabled={currentPage <= 10}>&lt;&lt;</button>
           <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
             &lt;
