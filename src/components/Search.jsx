@@ -89,6 +89,10 @@ function SearchFetch() {
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
+          <select name="" id="">
+            <option value="">도서관명별</option>
+            <option value="">지역별</option>
+          </select>
           <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1) }} />
           <img src="http://localhost:3000/img/search.png" alt="" />
         </div>
