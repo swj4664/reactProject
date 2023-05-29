@@ -24,7 +24,7 @@ table {
     border-collapse: collapse
 }
 
-.title {
+h2 {
     text-align: center;
     margin: 100px 0 0 0;
     font-size: 50px;
@@ -43,20 +43,13 @@ table {
 }
 
 .content .input_G .input_box {
-    width: 460px;
+    width: 700px;
     height: 60px;
     border-radius: 60px;
     font-size: 20px;
-    font-weight: 700;
     padding: 0 70px;
     border: 1px solid var(--sub-color);
     outline: none;
-    transition: width .5s ease;
-}
-
-.content .input_G .input_box:focus {
-    width: 700px;
-    border: 2px solid var(--point-color);
 }
 
 .content .input_G .input_box::placeholder {
@@ -67,7 +60,7 @@ table {
 .content .input_G img {
     position: absolute;
     top: 50%;
-    left: 148px;
+    left: 20px;
     transform: translateY(-50%);
     width: 30px;
     height: 30px;
@@ -102,7 +95,7 @@ table {
 }
 
 .content .list_G table col:nth-child(2) {
-    width: 49%;
+    width: 50%;
 }
 
 .content .list_G thead {
@@ -115,14 +108,16 @@ table {
 
 .content .list_G tbody tr {
     border-bottom: 1px solid #dddddd;
-    transition: background-color 0.2s ease;
 }
 
 .content .list_G tbody tr td {
     padding: 24px;
     white-space: nowrap;
+    /* 텍스트가 한 줄로 유지됨 */
     text-overflow: ellipsis;
+    /* 말줄임 표시 */
     overflow: hidden;
+    /* 내용이 넘칠 경우 감춤 */
 }
 
 .content .list_G tbody tr td:nth-child(2),
@@ -153,7 +148,7 @@ table {
 }
 
 .titleHover_bg {
-    background-color: #effcf7;
+    background-color: #f7f7f7;
 }
 
 .content .button_G button {
@@ -170,8 +165,4 @@ table {
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
-}
-
-.content .button_G button:hover {
-    font-weight: 700;
 }
