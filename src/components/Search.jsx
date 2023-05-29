@@ -5,15 +5,16 @@ import { Link, useParams, useLocation } from 'react-router-dom'
 
 function SearchFetch() {
   const [data, setData] = useState({ items: [] });
-  const [query, setQuery] = useState("포항");
+  const [query, setQuery] = useState("");
+  const [Selected, setSelected] = useState("");
 
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
   const startItem = (currentPage - 1) * itemsPerPage; // 보여주기 시작할 리스트
   const endItem = startItem + itemsPerPage;
-  const currentPageData = data.items.slice(startItem, endItem) // 현재 페이지에 보여지는 리스트
-  const pageCount = Math.ceil(data.items.length / itemsPerPage)
+  const currentPageData = data.items ? data.items.slice(startItem, endItem)  : [];// 현재 페이지에 보여지는 리스트 //data 상태가 비어있을대 빈배열로 설정
+  const pageCount = Math.ceil((data.items?.length || 0) / itemsPerPage) // data.items가 undefiend면 0을 출력
 
 
 
@@ -28,7 +29,8 @@ function SearchFetch() {
           'http://localhost:3001/data',
           {
             params : {
-              name : query
+              name : query,
+              type : Selected
             }
           }
         );
@@ -49,6 +51,16 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
+
+  const handleQueryChange = (event) => {
+    console.log(event);
+    setQuery(event.target.value);
+    setCurrentPage(1);
+  }
+
+  const handleSelectChange = (event) => {
+    setSelected(event.target.value);
+  }
   function pageBtn(){
     const result = [];
     for(let i = 0; i < pageCount; i++){
@@ -60,7 +72,13 @@ function SearchFetch() {
 
   return (
     <>
-      <input value={query} onChange={(e) => {setQuery(e.target.value); setCurrentPage(1)}} />
+      <div>
+        <select onChange={handleSelectChange} > 
+          <option value="bookNn">도서관명</option>
+          <option value="region">지역명</option>
+        </select>
+        <input value={query} onChange={handleQueryChange} />
+      </div>
       <ul>
         {currentPageData &&
           currentPageData
