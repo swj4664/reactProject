@@ -69,7 +69,7 @@ function SearchFetch() {
           value={i}
           onClick={() => setCurrentPage(i)}
           style={{
-            backgroundColor: currentPage === i ? 'pink' : 'white',
+            backgroundColor: currentPage === i ? 'rgb(98 212 173)' : 'white',
             color: currentPage === i ? 'white' : 'initial'
           }}
         >
@@ -82,15 +82,15 @@ function SearchFetch() {
   }
 
   let [titleHover, setTitleHover] = useState();
-  
+  let [inputLength, setInputLength] = useState(false)
 
   return (
     <>
-      <h2>모두의 도서관</h2>
+      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
           <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1) }} />
-          <img src="http://localhost:3000/img/search.svg" alt="" />
+          <img src="http://localhost:3000/img/search.png" alt="" />
         </div>
 
         <div className='list_G'>
@@ -113,7 +113,7 @@ function SearchFetch() {
                   .map((value, index) => (
                     <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
                       <td>
-                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}`} key={index}>
+                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
                           {value.lbrryNm}
                         </Link>
                       </td>
@@ -126,7 +126,7 @@ function SearchFetch() {
         </div>
 
         <div className='button_G'>
-          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 7}>처음</button >
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 2}>처음</button >
           <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10) : null} disabled={currentPage <= 10}>&lt;&lt;</button>
           <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
             &lt;
@@ -169,6 +169,8 @@ function Detail() {
   const longitude = searchParams.get('longitude');
   const latitude = searchParams.get('latitude');
   const address = searchParams.get('address');
+  const phoneNumber = searchParams.get('phoneNumber');
+  const homepageUrl = searchParams.get('homepageUrl');
 
   return (
     <>
@@ -176,6 +178,8 @@ function Detail() {
       <p>도서관 이름: {name}</p>
       <p>주소: {address}</p>
       <p>휴관일: {closeDay}</p>
+      <p>전화번호: {phoneNumber}</p>
+      <p>홈페이지: <a href={homepageUrl}>{homepageUrl}</a></p>
       <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
     </>
   );
