@@ -32,9 +32,9 @@ app.get("/data", (req, res) => {
     console.log(`${req.query.name}`);
     res.header("Access-Control-Allow-Origin", "*");
     
-    const sqlQuery = `select * from 전국도서관표준데이터 where 도서관명 like '%${req.query.name}%'`;
+    const sqlQuery = `select * from 전국도서관표준데이터 where lbrryNm like '%${req.query.name}%'`;
 
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});
     });
-});
+}); 

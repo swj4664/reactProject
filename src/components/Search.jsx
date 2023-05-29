@@ -37,7 +37,7 @@ function SearchFetch() {
         );
         if (!completed) {
           console.log(result.data)
-          setData({ items: result.data || [] });
+          setData({ items: result.data.items || [] });
         } else {
         }
       } catch (error) {
