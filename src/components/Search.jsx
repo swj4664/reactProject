@@ -123,6 +123,7 @@ function SearchFetch() {
         </select>
           <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
           <img src="http://localhost:3000/img/search.svg" alt="" />
+
         </div>
 
         <div className='list_G'>

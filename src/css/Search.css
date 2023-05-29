@@ -10,9 +10,14 @@
     --point-color: #62d4ad;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Pretendard-Regular;
     letter-spacing: 0.1px;
+    color: #101010;
 }
 
 table {
@@ -38,7 +43,7 @@ table {
 }
 
 .content .input_G .input_box {
-    width: 320px;
+    width: 460px;
     height: 60px;
     border-radius: 60px;
     font-size: 20px;
@@ -62,10 +67,22 @@ table {
 .content .input_G img {
     position: absolute;
     top: 50%;
-    left: 20px;
+    left: 148px;
     transform: translateY(-50%);
     width: 30px;
     height: 30px;
+}
+
+.content .input_G select {
+    margin-right: 30px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding-right: 20px;
+    background: url('http://localhost:3000/img/selectArrow.svg') no-repeat 100% 50%/15px auto;
+    -webkit-appearance:none; /* for chrome */
+    -moz-appearance:none; /*for firefox*/
+    appearance:none;
 }
 
 .content .list_G {
