@@ -9,6 +9,7 @@ function SearchFetch() {
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState("");
 
+
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
@@ -54,7 +55,6 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
-
   const handleQueryChange = (event) => {
     console.log(event);
     setQuery(event.target.value);
