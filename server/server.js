@@ -30,7 +30,6 @@ app.listen(PORT, () => {
 
 app.get("/data", (req, res) => {
     let searchType = req.query.type;
-    console.log(searchType);
     let sqlQuery ="";
     res.header("Access-Control-Allow-Origin", "*");
     if(searchType === 'bookNn'){

@@ -9,7 +9,6 @@ function SearchFetch() {
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState("bookNn");
 
-
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
@@ -97,33 +96,15 @@ function SearchFetch() {
 
   return (
     <>
-      <div>
+      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
+      <div className='content'>
+        <div className='input_G'>
         <select onChange={handleSelectChange} > 
           <option value="bookNn">도서관명</option>
           <option value="region">지역명</option>
         </select>
-        <input value={query} onChange={handleQueryChange} />
-      </div>
-      <ul>
-        {currentPageData &&
-          currentPageData
-            .map((value, index) => (
-              <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
-                <li>{value.lbrryNm} : {value.closeDay}</li>
-              </Link>
-            ))}
-      </ul>
-      <h2>모두의 도서관</h2>
-      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
-      <div className='content'>
-        <div className='input_G'>
-        <select onChange={handleSelectChange} defaultValue="bookNn"> 
-          <option value="region">지역명</option>
-          <option value="bookNn">도서관명</option>
-        </select>
-          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
-          <img src="http://localhost:3000/img/search.svg" alt="" />
-
+        <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
+          <img src="http://localhost:3000/img/search.png" alt="" />
         </div>
 
         <div className='list_G'>
