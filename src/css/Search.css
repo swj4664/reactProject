@@ -175,3 +175,56 @@ table {
 .content .button_G button:hover {
     font-weight: 700;
 }
+
+/*상세페이지start*/
+.container {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 1200px; /* 원하는 너비로 조정하세요 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+    height: 625px;
+}
+.kakaoMap-container{
+    margin-right: 20px;
+}
+.content-container {
+    flex:1;
+    padding: 20px;
+}
+.detail-title{
+    margin-right :20%;
+}
+
+/*버튼*/
+.detail-btn{
+    margin-top:7%;
+}
+.detail-content a {
+    color: #000;
+}
+.detail-phonenumber {
+    margin:50px 0px;
+}
+/*관심*/
+.detail-concern{
+    border: 2px solid var(--point-color);
+    background-color: #fff;
+    margin-right : 1rem;
+    color: rgb(98 212 173);
+    cursor: pointer;
+    width:25%;
+    height: 40px;
+}
+/*길찾기*/
+.detail-kakaobtn{
+    background-color: rgb(98 212 173);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    width:50%;
+    height: 40px;
+}
+
+/*상세페이지End*/
