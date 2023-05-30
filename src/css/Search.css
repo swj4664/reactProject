@@ -83,6 +83,7 @@ table {
     -webkit-appearance:none; /* for chrome */
     -moz-appearance:none; /*for firefox*/
     appearance:none;
+    text-align: center;
 }
 
 .content .list_G {
