@@ -7,7 +7,7 @@ import '../css/Search.css'
 function SearchFetch() {
   const [data, setData] = useState({ items: [] });
   const [query, setQuery] = useState("");
-  const [Selected, setSelected] = useState("");
+  const [Selected, setSelected] = useState("bookNn");
 
 
   // 페이징관련 변수
@@ -62,6 +62,7 @@ function SearchFetch() {
   }
 
   const handleSelectChange = (event) => {
+    console.log(event);
     setSelected(event.target.value);
   }
   function pageBtn(){
@@ -167,7 +168,11 @@ function SearchFetch() {
       <h2>모두의 도서관</h2>
       <div className='content'>
         <div className='input_G'>
-          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1) }} />
+        <select onChange={handleSelectChange} defaultValue="bookNn"> 
+          <option value="region">지역명</option>
+          <option value="bookNn">도서관명</option>
+        </select>
+          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
           <img src="http://localhost:3000/img/search.svg" alt="" />
         </div>
 
