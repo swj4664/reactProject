@@ -33,9 +33,9 @@ app.get("/data", (req, res) => {
     let sqlQuery ="";
     res.header("Access-Control-Allow-Origin", "*");
     if(searchType === 'bookNn'){
-        sqlQuery = `select * from 전국도서관표준데이터 where lbrryNm like '%${req.query.name}%'`;
+        sqlQuery = `SELECT * FROM 전국도서관표준데이터 WHERE lbrryNm like '%${req.query.name}%'`;
     }else if(searchType === 'region'){
-        sqlQuery = `select * from 전국도서관표준데이터 where signguNm like '%${req.query.name}%'`;
+        sqlQuery = `SELECT * FROM 전국도서관표준데이터 WHERE CONCAT(ctprvnNm, signguNm) LIKE '%${req.query.name}%'`;
     }
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});

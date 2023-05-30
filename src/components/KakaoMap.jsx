@@ -26,7 +26,7 @@ function Kakao(props) {
         // 마커를 지도 위에 표시
         marker.setMap(map);
 
-        let iwContent = `<div class="info-title">${props.name} <br><a href="https://map.kakao.com/link/to/${props.name},${props.latitude},${props.longitude}" style="color:blue" target="_blank">길찾기</a></div>` // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        let iwContent = `<div class="info-title">${props.name} <br></div>` // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
         // 인포윈도우를 생성합니다
         let infowindow = new kakao.maps.InfoWindow({

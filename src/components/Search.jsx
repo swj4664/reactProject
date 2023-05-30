@@ -37,7 +37,7 @@ function SearchFetch() {
           }
         );
         if (!completed) {
-          console.log(result.data)
+          // console.log(result.data)
           setData({ items: result.data.items || [] });
         } else {
         }
@@ -53,13 +53,13 @@ function SearchFetch() {
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
   const handleQueryChange = (event) => {
-    console.log(event);
+    // console.log(event);
     setQuery(event.target.value);
     setCurrentPage(1);
   }
 
   const handleSelectChange = (event) => {
-    console.log(event);
+    // console.log(event);
     setSelected(event.target.value);
   }
   function pageBtn(){
@@ -159,6 +159,7 @@ function SearchFetch() {
 
 
 }
+
 /**
  * @see SearchFetch() //참조해서 봐야할것
  */
@@ -182,17 +183,26 @@ function Detail() {
   const address = searchParams.get('address');
   const phoneNumber = searchParams.get('phoneNumber');
   const homepageUrl = searchParams.get('homepageUrl');
-
+  const handleLink = () =>{
+    window.location.href = `https://map.kakao.com/link/to/${name},${latitude},${longitude}`;
+  };
   return (
-    <>
-      도서관 내용
-      <p>도서관 이름: {name}</p>
-      <p>주소: {address}</p>
-      <p>휴관일: {closeDay}</p>
-      <p>전화번호: {phoneNumber}</p>
-      <p>홈페이지: <a href={homepageUrl}>{homepageUrl}</a></p>
-      <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
-    </>
+    <div className='container'>
+        <div className="kakaoMap-container">
+          <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
+        </div>
+        <div className="content-container">
+          <h2>{name}</h2>
+          <div>{address}</div>
+          <div className='detail-homepage'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>홈페이지</span><span className="detail-content"><a href={homepageUrl}>{homepageUrl}</a></span></div>
+          <div className='detail-phonenumber'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>전화번호</span><span className="detail-content">{phoneNumber}</span></div>
+          <div className='detail-holiday'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>휴관일</span><span className="detail-content">{closeDay}</span></div>
+          <div className="detail-btn">
+            <button className="detail-concern">관심+</button>
+            <button className="detail-kakaobtn" onClick={handleLink}>길찾기</button>
+          </div>
+        </div>
+    </div>
   );
 }
 export { SearchFetch, Detail };
