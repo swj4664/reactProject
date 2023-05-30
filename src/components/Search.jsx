@@ -2,20 +2,24 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
 import { Link, useParams, useLocation } from 'react-router-dom'
+import '../css/Search.css'
 
 function SearchFetch() {
   const [data, setData] = useState({ items: [] });
-  const [query, setQuery] = useState("포항");
+  const [query, setQuery] = useState("");
+  const [Selected, setSelected] = useState("bookNn");
+
 
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
   const startItem = (currentPage - 1) * itemsPerPage; // 보여주기 시작할 리스트
   const endItem = startItem + itemsPerPage;
-  const currentPageData = data.items.slice(startItem, endItem) // 현재 페이지에 보여지는 리스트
-  const pageCount = Math.ceil(data.items.length / itemsPerPage)
-
-
+  const currentPageData = data.items ? data.items.slice(startItem, endItem)  : [];// 현재 페이지에 보여지는 리스트 //data 상태가 비어있을대 빈배열로 설정
+  const pageCount = Math.ceil((data.items?.length || 0) / itemsPerPage) // data.items가 undefiend면 0을 출력
+  const maxVisibleButtons = 10;
+  const maxPage = Math.min(pageCount, currentPage + Math.floor(maxVisibleButtons / 2)); // 최대 페이지 버튼 번호
+  const minPage = Math.max(1, maxPage - maxVisibleButtons + 1); // 최소 페이지 버튼 번호
 
   //useEffect는 비동기적으로 동작
   useEffect(() => {
@@ -28,14 +32,14 @@ function SearchFetch() {
           'http://localhost:3001/data',
           {
             params : {
-              name : query
+              name : query,
+              type : Selected
             }
           }
         );
         if (!completed) {
-          // console.log(result.data)
-          setData(result.data || { items: [] })
-          // setData(result.data.response.body || { items: [] });
+          console.log(result.data)
+          setData({ items: result.data.items || [] });
         } else {
         }
       } catch (error) {
@@ -49,40 +53,129 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
+  const handleQueryChange = (event) => {
+    console.log(event);
+    setQuery(event.target.value);
+    setCurrentPage(1);
+  }
+
+  const handleSelectChange = (event) => {
+    console.log(event);
+    setSelected(event.target.value);
+  }
   function pageBtn(){
     const result = [];
-    for(let i = 0; i < pageCount; i++){
-      
-      result.push(<button key={i} onClick={()=> setCurrentPage(i+1)}>{i+1}</button>)
+    const maxVisibleButtons = 10; // 최대 보이는 페이지 버튼 수
+    let minPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2)); // 최소 페이지 버튼 번호
+    const maxPage = Math.min(minPage + maxVisibleButtons - 1, pageCount); // 최대 페이지 버튼 번호
+
+    if (maxPage - minPage < maxVisibleButtons - 1) {
+      minPage = Math.max(1, maxPage - maxVisibleButtons + 1);
     }
-    return result
+
+    for (let i = minPage; i <= maxPage; i++) {
+      result.push(
+        <button className='num_btn'
+          key={i}
+          value={i}
+          onClick={() => setCurrentPage(i)}
+          style={{
+            backgroundColor: currentPage === i ? 'rgb(98 212 173)' : 'white',
+            color: currentPage === i ? 'white' : 'initial'
+          }}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return result;
   }
+
+  let [titleHover, setTitleHover] = useState();
+  let [inputLength, setInputLength] = useState(false)
 
   return (
     <>
-      <input value={query} onChange={(e) => {setQuery(e.target.value); setCurrentPage(1)}} />
+      <div>
+        <select onChange={handleSelectChange} > 
+          <option value="bookNn">도서관명</option>
+          <option value="region">지역명</option>
+        </select>
+        <input value={query} onChange={handleQueryChange} />
+      </div>
       <ul>
         {currentPageData &&
           currentPageData
-          .map((value, index) => (
-            <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
-              <li>{value.lbrryNm} : {value.closeDay}</li>
-            </Link>
-          ))}
+            .map((value, index) => (
+              <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
+                <li>{value.lbrryNm} : {value.closeDay}</li>
+              </Link>
+            ))}
       </ul>
+      <h2>모두의 도서관</h2>
+      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
+      <div className='content'>
+        <div className='input_G'>
+        <select onChange={handleSelectChange} defaultValue="bookNn"> 
+          <option value="region">지역명</option>
+          <option value="bookNn">도서관명</option>
+        </select>
+          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
+          <img src="http://localhost:3000/img/search.svg" alt="" />
 
-      
-      <button onClick={()=>setCurrentPage(currentPage-1)} disabled={currentPage===1}>
-        이전 페이지
-      </button>
-      {pageBtn()}
-      <button onClick={()=>setCurrentPage(currentPage+1)} disabled={currentPage===pageCount}>
-        다음 페이지
-      </button>
+        </div>
+
+        <div className='list_G'>
+          <table>
+            <colgroup>
+              <col />
+              <col />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>도서관명</th>
+                <th>주소</th>
+                <th>전화번호</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentPageData &&
+                currentPageData
+                  .map((value, index) => (
+                    <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
+                      <td>
+                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
+                          {value.lbrryNm}
+                        </Link>
+                      </td>
+                      <td>{value.rdnmadr}</td>
+                      <td>{value.phoneNumber}</td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className='button_G'>
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 2}>처음</button >
+          <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10) : null} disabled={currentPage <= 10}>&lt;&lt;</button>
+          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+            &lt;
+          </button>
+          {pageBtn()}
+          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageCount || data.items.length == 0}>
+            &gt;
+          </button>
+          <button onClick={() => currentPage <= pageCount - 10 ? setCurrentPage(currentPage + 10) : null} disabled={currentPage > pageCount - 10}>&gt;&gt;</button>
+          <button onClick={() => setCurrentPage(pageCount)} disabled={currentPage === pageCount || data.items.length == 0 || pageCount < 11}>끝</button>
+        </div>
+      </div>
     </>
   );
 
- 
+
 
 }
 /**
@@ -106,6 +199,8 @@ function Detail() {
   const longitude = searchParams.get('longitude');
   const latitude = searchParams.get('latitude');
   const address = searchParams.get('address');
+  const phoneNumber = searchParams.get('phoneNumber');
+  const homepageUrl = searchParams.get('homepageUrl');
 
   return (
     <>
@@ -113,6 +208,8 @@ function Detail() {
       <p>도서관 이름: {name}</p>
       <p>주소: {address}</p>
       <p>휴관일: {closeDay}</p>
+      <p>전화번호: {phoneNumber}</p>
+      <p>홈페이지: <a href={homepageUrl}>{homepageUrl}</a></p>
       <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
     </>
   );

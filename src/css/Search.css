@@ -1,0 +1,176 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --sub-color: #B6B6B6;
+    --point-color: #62d4ad;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Pretendard-Regular;
+    letter-spacing: 0.1px;
+    color: #101010;
+}
+
+table {
+    border-collapse: collapse
+}
+
+.title {
+    text-align: center;
+    margin: 100px 0 0 0;
+    font-size: 50px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.content .input_G {
+    height: 60px;
+    position: relative;
+}
+
+.content .input_G .input_box {
+    width: 460px;
+    height: 60px;
+    border-radius: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0 70px;
+    border: 1px solid var(--sub-color);
+    outline: none;
+    transition: width .5s ease;
+}
+
+.content .input_G .input_box:focus {
+    width: 700px;
+    border: 2px solid var(--point-color);
+}
+
+.content .input_G .input_box::placeholder {
+    color: #B6B6B6;
+    font-size: 20px;
+}
+
+.content .input_G img {
+    position: absolute;
+    top: 50%;
+    left: 148px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+}
+
+.content .input_G select {
+    margin-right: 30px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding-right: 20px;
+    background: url('http://localhost:3000/img/selectArrow.svg') no-repeat 100% 50%/15px auto;
+    -webkit-appearance:none; /* for chrome */
+    -moz-appearance:none; /*for firefox*/
+    appearance:none;
+}
+
+.content .list_G {
+    overflow: hidden;
+    font-size: 18px;
+}
+
+.content .list_G table {
+    margin: 50px 0;
+    width: 900px;
+    table-layout: fixed;
+}
+
+.content .list_G table col:first-child {
+    width: 30%;
+}
+
+.content .list_G table col:nth-child(2) {
+    width: 49%;
+}
+
+.content .list_G thead {
+    border-bottom: 2px solid #555;
+}
+
+.content .list_G thead th {
+    padding: 20px;
+}
+
+.content .list_G tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.2s ease;
+}
+
+.content .list_G tbody tr td {
+    padding: 24px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.content .list_G tbody tr td:nth-child(2),
+.content .list_G tbody tr td:nth-child(3) {
+    color: #888888;
+}
+
+.content .list_G tbody tr td:nth-child(2) {
+    padding: 24px 40px;
+}
+
+.content .list_G tbody tr td:nth-child(3) {
+    text-align: center;
+}
+
+.content .list_G tbody a {
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.content .list_G th {
+    list-style: none;
+}
+
+.titleHover {
+    font-weight: 700;
+}
+
+.titleHover_bg {
+    background-color: #effcf7;
+}
+
+.content .button_G button {
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.content .button_G .num_btn {
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.content .button_G button:hover {
+    font-weight: 700;
+}
