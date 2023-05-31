@@ -41,3 +41,26 @@ app.get("/data", (req, res) => {
         res.send({items:result});
     });
 }); 
+
+let bodyParser = require('body-parser')
+app.use(bodyParser.json());
+app.post("/join", (req, res) => {
+
+    let id = req.body.id
+    let sqlQuery = "";
+    sqlQuery = `SELECT * FROM users`;
+    
+    db.query(sqlQuery, (err, result) => {
+        res.send(result);
+    });
+
+    db.query(`insert into users (id) values ('${id}')`, (err, result)=> {
+        if(err){
+            console.log('실패')
+        } else {
+            console.log('성공');
+        }
+    })
+
+    res.header("Access-Control-Allow-Origin", "*");
+}); 
