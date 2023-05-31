@@ -10,7 +10,6 @@ function SearchFetch() {
   const [query, setQuery] = useState("");
   const [Selected, setSelected] = useState("bookNn");
 
-
   // 페이징관련 변수
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // 한 페이지 리스트 수
@@ -21,8 +20,6 @@ function SearchFetch() {
   const maxVisibleButtons = 10;
   const maxPage = Math.min(pageCount, currentPage + Math.floor(maxVisibleButtons / 2)); // 최대 페이지 버튼 번호
   const minPage = Math.max(1, maxPage - maxVisibleButtons + 1); // 최소 페이지 버튼 번호
-
-
 
   //useEffect는 비동기적으로 동작
   useEffect(() => {
@@ -103,15 +100,8 @@ function SearchFetch() {
 
   return (
     <>
-<<<<<<< HEAD
-    <div>
-      <Link to='/join'>회원가입페이지</Link>
-      <Link to='/login'>로그인페이지</Link>
-    </div>
-=======
       <Join />
 
->>>>>>> 8d52468 (server)
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
@@ -144,74 +134,6 @@ function SearchFetch() {
                     <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
                       <td>
                         <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={() => setTitleHover(index)} onMouseLeave={() => setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
-                          {value.lbrryNm}
-                        </Link>
-                      </td>
-                      <td>{value.rdnmadr}</td>
-                      <td>{value.phoneNumber}</td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className='button_G'>
-          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1 || pageCount < 11 || pageCount > 10 && currentPage < 2}>처음</button >
-          <button onClick={() => currentPage > 10 ? setCurrentPage(currentPage - 10) : null} disabled={currentPage <= 10}>&lt;&lt;</button>
-          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
-            &lt;
-          </button>
-          {pageBtn()}
-          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === pageCount || data.items.length == 0}>
-            &gt;
-          </button>
-          <button onClick={() => currentPage <= pageCount - 10 ? setCurrentPage(currentPage + 10) : null} disabled={currentPage > pageCount - 10}>&gt;&gt;</button>
-          <button onClick={() => setCurrentPage(pageCount)} disabled={currentPage === pageCount || data.items.length == 0 || pageCount < 11}>끝</button>
-        </div>
-      </div>
-      <ul>
-        {currentPageData &&
-          currentPageData
-            .map((value, index) => (
-              <Link to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}`} key={index}>
-                <li>{value.lbrryNm} : {value.closeDay}</li>
-              </Link>
-            ))}
-      </ul>
-      <h2>모두의 도서관</h2>
-      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
-      <div className='content'>
-        <div className='input_G'>
-        <select onChange={handleSelectChange} defaultValue="bookNn"> 
-          <option value="region">지역명</option>
-          <option value="bookNn">도서관명</option>
-        </select>
-          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
-          <img src="http://localhost:3000/img/search.svg" alt="" />
-
-        </div>
-
-        <div className='list_G'>
-          <table>
-            <colgroup>
-              <col />
-              <col />
-              <col />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>도서관명</th>
-                <th>주소</th>
-                <th>전화번호</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPageData &&
-                currentPageData
-                  .map((value, index) => (
-                    <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
-                      <td>
-                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
                           {value.lbrryNm}
                         </Link>
                       </td>
