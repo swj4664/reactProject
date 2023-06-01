@@ -100,15 +100,11 @@ function SearchFetch() {
 
   return (
     <>
-<<<<<<< HEAD
-    <div>
+    {/* <div>
       <Link to='/join'>회원가입페이지</Link>
       <Link to='/login'>로그인페이지</Link>
-    </div>
-=======
+    </div> */}
       <Join />
-
->>>>>>> 8d52468 (server)
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
