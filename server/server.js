@@ -28,6 +28,9 @@ app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });
 
+/**
+ * @brief 도서관검색 비동기통신
+ */
 app.get("/data", (req, res) => {
     let searchType = req.query.type;
     console.log(searchType);
@@ -41,4 +44,52 @@ app.get("/data", (req, res) => {
     db.query(sqlQuery, (err, result) => {
         res.send({items:result});
     });
+}); 
+
+/**
+ * @brief 회원가입 비동기통신
+ */
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.post("/join", (req, res) => {
+    const {id,password} = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
+    try{
+        let sqlQuery = `INSERT INTO USERS (ID, PASSWORD, createdAt) VALUES('${id}', '${password}', now())`;
+        console.log(sqlQuery);
+        db.query(sqlQuery, (err, result) => {
+            res.send("테스트");
+            res.send({result:'S'});
+        });
+    }catch(err){
+        res.send({result:'F'});
+    }
+}); 
+
+
+
+
+/**
+ * @brief 로그인 비동기통신
+ */
+app.post("/login", (req, res) => {
+    const {id,password} = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
+    let sqlQuery = `select id,password from users where id = '${id}'`;
+    try{
+        db.query(sqlQuery, (err, result) => {
+            console.log(result);
+            res.send({result:'S'});
+        });
+    }catch(err){
+        res.send({result:'F'});
+    }
+    // try{
+    //     let sqlQuery = `INSERT INTO USERS (ID, PASSWORD,createdAt) VALUES('${id}', '${password}, now()')`;
+    //     db.query(sqlQuery, (err, result) => {
+    //         res.send({result:'S'});
+    //     });
+    // }catch(err){
+    //     res.send({result:'F'});
+    // }
 }); 
