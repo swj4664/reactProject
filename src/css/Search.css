@@ -80,9 +80,11 @@ table {
     cursor: pointer;
     padding-right: 20px;
     background: url('http://localhost:3000/img/selectArrow.svg') no-repeat 100% 50%/15px auto;
-    -webkit-appearance:none; /* for chrome */
-    -moz-appearance:none; /*for firefox*/
-    appearance:none;
+    -webkit-appearance: none;
+    /* for chrome */
+    -moz-appearance: none;
+    /*for firefox*/
+    appearance: none;
     text-align: center;
 }
 
@@ -178,53 +180,111 @@ table {
 
 /*상세페이지start*/
 .container {
-    
     display: flex;
     justify-content: center;
-    align-items: center; /* 세로 중앙 정렬 */
-    max-width: 1200px; /* 원하는 너비로 조정하세요 */
-    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
-    height: 625px;
-}
-.kakaoMap-container{
-    margin-right: 20px;
-}
-.content-container {
-    flex:1;
-    padding: 20px;
-}
-.detail-title{
-    margin-right :20%;
+    align-items: center;
+    /* 세로 중앙 정렬 */
+    max-width: 1200px;
+    /* 원하는 너비로 조정하세요 */
+    margin: 0 auto;
+    /* 가운데 정렬을 위한 마진 설정 */
+    height: 100vh;
 }
 
-/*버튼*/
-.detail-btn{
-    margin-top:7%;
+.kakaoMap-container {
+    flex: 1 1 0;
+    padding: 20px;
 }
+
+.content-container {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    padding: 20px;
+    height: 540px;
+}
+
+.content-container h2 {
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.detail-title {
+    margin: 0 20px;
+    width: 80px;
+}
+
+.detail-top {
+    flex: 1 1 0;
+    padding-bottom: 30px;
+}
+
+.detail-middle {
+    display: flex;
+    flex-direction: column;
+    flex: 3 1 0;
+    font-size: 18px;
+}
+
+
+
+.detail-middle .detail-homepage {
+    display: flex;
+    align-items: center;
+}
+
+.detail-middle .detail-phonenumber {
+    display: flex;
+    align-items: center;
+}
+
+.detail-middle .detail-holiday {
+    display: flex;
+    align-items: center;
+}
+
+.detail-middle .detail-holiday img{
+    width: 45px;
+    height: 45px;
+}
+
+
+/*버튼*/
+.detail-btn {}
+
 .detail-content a {
     color: #000;
+    
 }
+
 .detail-phonenumber {
-    margin:50px 0px;
+    padding: 50px 0px;
 }
+
 /*관심*/
-.detail-concern{
+.detail-concern {
     border: 2px solid var(--point-color);
     background-color: #fff;
-    margin-right : 1rem;
+    margin-right: 1rem;
     color: rgb(98 212 173);
     cursor: pointer;
-    width:25%;
-    height: 40px;
+    width: 30%;
+    height: 54px;
+    font-size: 18px;
+    font-weight: 700;
 }
+
 /*길찾기*/
-.detail-kakaobtn{
+.detail-kakaobtn {
     background-color: rgb(98 212 173);
     border: none;
     color: #fff;
     cursor: pointer;
-    width:50%;
-    height: 40px;
+    width: 65%;
+    font-size: 18px;
+    height: 54px;
+    font-weight: 700;
 }
 
 /*상세페이지End*/

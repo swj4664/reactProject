@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import KakaoMap from './KakaoMap';
+import Join from './Join';
 import { Link, useParams, useLocation } from 'react-router-dom'
 import '../css/Search.css'
 
@@ -15,8 +16,8 @@ function SearchFetch() {
   const itemsPerPage = 10; // 한 페이지 리스트 수
   const startItem = (currentPage - 1) * itemsPerPage; // 보여주기 시작할 리스트
   const endItem = startItem + itemsPerPage;
-  const currentPageData = data.items.slice(startItem, endItem) // 현재 페이지에 보여지는 리스트
-  const pageCount = Math.ceil(data.items.length / itemsPerPage)
+  const currentPageData = data.items ? data.items.slice(startItem, endItem) : [];// 현재 페이지에 보여지는 리스트 //data 상태가 비어있을대 빈배열로 설정
+  const pageCount = Math.ceil((data.items?.length || 0) / itemsPerPage) // data.items가 undefiend면 0을 출력
   const maxVisibleButtons = 10;
   const maxPage = Math.min(pageCount, currentPage + Math.floor(maxVisibleButtons / 2)); // 최대 페이지 버튼 번호
   const minPage = Math.max(1, maxPage - maxVisibleButtons + 1); // 최소 페이지 버튼 번호
@@ -33,9 +34,9 @@ function SearchFetch() {
         const result = await axios.get(
           'http://localhost:3001/data',
           {
-            params : {
-              name : query,
-              type : Selected
+            params: {
+              name: query,
+              type: Selected
             }
           }
         );
@@ -50,11 +51,14 @@ function SearchFetch() {
     }
     get();
 
+
+
     return () => {
       completed = true;
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
+  
   const handleQueryChange = (event) => {
     // console.log(event);
     setQuery(event.target.value);
@@ -65,7 +69,7 @@ function SearchFetch() {
     // console.log(event);
     setSelected(event.target.value);
   }
-  function pageBtn(){
+  function pageBtn() {
     const result = [];
     const maxVisibleButtons = 10; // 최대 보이는 페이지 버튼 수
     let minPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2)); // 최소 페이지 버튼 번호
@@ -99,18 +103,23 @@ function SearchFetch() {
 
   return (
     <>
+<<<<<<< HEAD
     <div>
       <Link to='/join'>회원가입페이지</Link>
       <Link to='/login'>로그인페이지</Link>
     </div>
+=======
+      <Join />
+
+>>>>>>> 8d52468 (server)
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>
-          <select name="" id="">
-            <option value="">도서관명별</option>
-            <option value="">지역별</option>
+          <select onChange={handleSelectChange} >
+            <option value="bookNn">도서관명</option>
+            <option value="region">지역명</option>
           </select>
-          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1) }} />
+          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
           <img src="http://localhost:3000/img/search.png" alt="" />
         </div>
 
@@ -134,7 +143,7 @@ function SearchFetch() {
                   .map((value, index) => (
                     <tr key={index} className={titleHover == index ? 'titleHover_bg' : ""}>
                       <td>
-                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={()=> setTitleHover(index)} onMouseLeave={()=> setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
+                        <Link className={titleHover == index ? 'titleHover' : ""} onMouseOver={() => setTitleHover(index)} onMouseLeave={() => setTitleHover(null)} to={`/detail/${index}?name=${value.lbrryNm}&closeDay=${value.closeDay}&longitude=${value.longitude}&latitude=${value.latitude}&address=${value.rdnmadr}&phoneNumber=${value.phoneNumber}&homepageUrl=${value.homepageUrl}`} key={index}>
                           {value.lbrryNm}
                         </Link>
                       </td>
@@ -258,25 +267,29 @@ function Detail() {
   const address = searchParams.get('address');
   const phoneNumber = searchParams.get('phoneNumber');
   const homepageUrl = searchParams.get('homepageUrl');
-  const handleLink = () =>{
+  const handleLink = () => {
     window.location.href = `https://map.kakao.com/link/to/${name},${latitude},${longitude}`;
   };
   return (
     <div className='container'>
-        <div className="kakaoMap-container">
-          <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
-        </div>
-        <div className="content-container">
+      <div className="kakaoMap-container">
+        <KakaoMap index={id} longitude={longitude} latitude={latitude} name={name} />
+      </div>
+      <div className="content-container">
+        <div className='detail-top'>
           <h2>{name}</h2>
           <div>{address}</div>
-          <div className='detail-homepage'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>홈페이지</span><span className="detail-content"><a href={homepageUrl}>{homepageUrl}</a></span></div>
-          <div className='detail-phonenumber'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>전화번호</span><span className="detail-content">{phoneNumber}</span></div>
-          <div className='detail-holiday'><img src="http://localhost:3000/img/search.png" alt="" /><span className='detail-title'>휴관일</span><span className="detail-content">{closeDay}</span></div>
-          <div className="detail-btn">
-            <button className="detail-concern">관심+</button>
-            <button className="detail-kakaobtn" onClick={handleLink}>길찾기</button>
-          </div>
         </div>
+        <div className='detail-middle'>
+          <div className='detail-homepage'><img src="http://localhost:3000/img/email.svg" alt="" /><span className='detail-title'>홈페이지</span><span className="detail-content"><a href={homepageUrl}>{homepageUrl}</a></span></div>
+          <div className='detail-phonenumber'><img src="http://localhost:3000/img/phone.svg" alt="" /><span className='detail-title'>전화번호</span><span className="detail-content">{phoneNumber}</span></div>
+          <div className='detail-holiday'><img src="http://localhost:3000/img/day.svg" alt="" /><span className='detail-title'>휴관일</span><span className="detail-content">{closeDay}</span></div>
+        </div>
+        <div className="detail-btn">
+          <button className="detail-concern">관심+</button>
+          <button className="detail-kakaobtn" onClick={handleLink}>길찾기</button>
+        </div>
+      </div>
     </div>
   );
 }
