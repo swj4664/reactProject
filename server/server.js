@@ -3,6 +3,8 @@ const cors    = require("cors");    // npm i cors | yarn add cors
 const mysql   = require("mysql");   // npm i mysql | yarn add mysql
 const app     = express();
 const PORT    = 3001; // 포트번호 설정
+const session = require('express-session');
+const Memorystore = require('memorystore')(session)
 
 // MySQL 연결
 const db = mysql.createPool({
@@ -18,6 +20,17 @@ app.use(cors({
     credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
     optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
 }))
+
+let maxAge = 60*1000;
+app.use(session({
+    secret: '1111', // 세션에 사용할 암호화 키
+    resave: false,
+    saveUninitialized: true,
+    store: new Memorystore({ checkPeriod: maxAge  }),  // 서버를 저장할 공간 설정,
+    cookie: {
+        maxAge: maxAge
+    }
+  }));
 
 // post 요청 시 값을 객체로 바꿔줌
 app.use(express.urlencoded({ extended: true })) 
@@ -45,8 +58,9 @@ app.get("/data", (req, res) => {
 let bodyParser = require('body-parser')
 app.use(bodyParser.json());
 app.post("/join", (req, res) => {
-
+    res.header("Access-Control-Allow-Origin", "*");
     let id = req.body.id
+    let pw = req.body.pw
     let sqlQuery = "";
     sqlQuery = `SELECT * FROM users`;
     
@@ -54,13 +68,36 @@ app.post("/join", (req, res) => {
         res.send(result);
     });
 
-    db.query(`insert into users (id) values ('${id}')`, (err, result)=> {
+    db.query(`insert into users (id, password) values ('${id}','${pw}')`, (err, result)=> {
         if(err){
             console.log('실패')
         } else {
             console.log('성공');
         }
     })
-
-    res.header("Access-Control-Allow-Origin", "*");
 }); 
+
+
+app.post("/login", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    let id = req.body.id
+    let pw = req.body.pw
+
+    db.query(`select count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
+        if(result[0]['count(id)'] === 1){
+            req.session.userId = id;
+            console.log('성공');
+            // res.send(id);
+                res.redirect('/header');
+        } else {
+            console.log('실패')
+        }
+    })
+})
+
+
+app.get("/header", (req, res) => {
+    let aaa = req.session.userId;
+    console.log(aaa);
+})
+

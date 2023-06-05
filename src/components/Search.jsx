@@ -100,7 +100,7 @@ function SearchFetch() {
 
   return (
     <>
-      <Join />
+      {/* <Join /> */}
 
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
