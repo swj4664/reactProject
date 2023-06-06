@@ -1,34 +1,47 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-function Login(){
-    const [id, setId] = useState("");
-    const [password, setPassword] = useState("");
+import { useDispatch } from 'react-redux';
 
-    const handleLogin = async () => {
-          try {
-            const result = await axios.post(
-              'http://localhost:3001/login',
-              {
-                  id : id,
-                  password: password
-              });
-              console.log(result.data);
-              if(result.data =='S'){
-                alert("로그인되었습니다.");
-              }else{
-                alert("존재하지않는 아이디입니다.");
-              }
-          } catch (error) {
-            console.log(error);
+function Login() {
+    let [id, setId] = useState('')
+    let [pw, setPw] = useState('')
+    let [loginId, setloginId] = useState('')
+    const dispatch = useDispatch();
+
+    dispatch({ type: 'SET_DATA', payload: loginId });
+    
+    async function post() {
+      try {
+        const result = await axios.post(
+          'http://localhost:3001/Login',
+          {
+              id: id,
+              pw: pw
           }
-        }
-    return(
-        <>
-        <input className='input_box' placeholder='아이디를 입력해주세요' value={id} onChange={(e) => { setId(e.target.value);}} />
-        <input className='input_box' placeholder='패스워드를 입력해주세요' value={password} onChange={(e) => { setPassword(e.target.value);}} />
-        <button onClick={handleLogin}>로그인</button>
-        </>
+        );
+        
+        
+        const data = result.data
+        setloginId(data)
+        
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+  
+    return (
+      <>
+        <div>로그인</div>
+        <input type="text" value={id} onChange={(e) => { setId(e.target.value); }} />
+        <input type="password" value={pw} onChange={(e) => { setPw(e.target.value); }} />
+        <button onClick={() => { post(); }}>로그인</button>
+        <a href='http://localhost:3000/join'>회원가입</a>
+        {loginId ? loginId+'님 환영합니다.':null}
+        
+      </>
     )
-}
-
-export default Login;
+  }
+  
+  export default Login;
