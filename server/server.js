@@ -1,8 +1,10 @@
 const express = require("express"); // npm i express | yarn add express
+const session = require('express-session');
 const cors    = require("cors");    // npm i cors | yarn add cors
 const mysql   = require("mysql");   // npm i mysql | yarn add mysql
 const app     = express();
 const PORT    = 3001; // 포트번호 설정
+const Memorystore = require('memorystore')(session)
 
 // MySQL 연결
 const db = mysql.createPool({
@@ -14,10 +16,21 @@ const db = mysql.createPool({
 
 
 app.use(cors({
-    origin: "*",                // 출처 허용 옵션
-    credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    origin: 'http://localhost:3000', // 클라이언트의 도메인 주소
+    credentials: true, // 쿠키를 포함한 요청을 허용
     optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
 }))
+
+let maxAge = 60*1000;
+app.use(session({
+    secret: 'song', // 세션에 사용할 암호화 키
+    resave: false,
+    saveUninitialized: true,
+    store: new Memorystore({ checkPeriod: maxAge  }),  // 서버를 저장할 공간 설정,
+    cookie: {
+        maxAge: maxAge
+    }
+  }));
 
 // post 요청 시 값을 객체로 바꿔줌
 app.use(express.urlencoded({ extended: true })) 
@@ -51,44 +64,43 @@ app.get("/data", (req, res) => {
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.post("/join", (req, res) => {
-    const {id,password} = req.body;
     res.header("Access-Control-Allow-Origin", "*");
-    try{
-        let sqlQuery = `INSERT INTO USERS (ID, PASSWORD, createdAt) VALUES('${id}', '${password}', now())`;
-        console.log(sqlQuery);
-        db.query(sqlQuery, (err, result) => {
-            res.send("테스트");
-            res.send({result:'S'});
-        });
-    }catch(err){
-        res.send({result:'F'});
-    }
+    let id = req.body.id
+    let pw = req.body.pw
+    let sqlQuery = "";
+    sqlQuery = `SELECT * FROM users`;
+    
+    db.query(sqlQuery, (err, result) => {
+        res.send(result);
+    });
+
+    db.query(`insert into users (id, password) values ('${id}','${pw}')`, (err, result)=> {
+        if(err){
+            console.log('실패')
+        } else {
+            console.log('성공');
+        }
+    })
 }); 
 
 
-
-
-/**
- * @brief 로그인 비동기통신
- */
 app.post("/login", (req, res) => {
-    const {id,password} = req.body;
-    res.header("Access-Control-Allow-Origin", "*");
-    let sqlQuery = `select id,password from users where id = '${id}'`;
-    try{
-        db.query(sqlQuery, (err, result) => {
-            console.log(result);
-            res.send({result:'S'});
-        });
-    }catch(err){
-        res.send({result:'F'});
-    }
-    // try{
-    //     let sqlQuery = `INSERT INTO USERS (ID, PASSWORD,createdAt) VALUES('${id}', '${password}, now()')`;
-    //     db.query(sqlQuery, (err, result) => {
-    //         res.send({result:'S'});
-    //     });
-    // }catch(err){
-    //     res.send({result:'F'});
-    // }
-}); 
+    let id = req.body.id
+    let pw = req.body.pw
+
+    db.query(`select id, count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
+        if(result[0]['count(id)'] === 1){
+            req.session.user = result[0].id;
+            res.send(result);
+        } else {
+            console.log('실패')
+        }
+    })
+})
+
+
+app.get("/get-user-id", (req, res) => {
+    let user = req.session.user;
+    res.send({ userId: user }); // 세션 값 반환
+})
+
