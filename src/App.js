@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { SearchFetch, Detail } from '../src/components/Search';
 import Join from '../src/components/Join';
+import MyPage from '../src/components/MyPage';
 import Login from '../src/components/Login';
 import Header from '../src/components/Header';
 import { BrowserRouter as Router, Route, Routes, useNavigate  } from 'react-router-dom';
@@ -21,14 +22,19 @@ function App() {
     navigate('/login');
   };
 
+  const myPage = () => {
+    navigate('/mypage');
+  };
+
   return (
     <>
-      <Header userId={userId} onLogout={handleLogout} />
+      <Header userId={JSON.stringify(sessionStorage.loginId)} onLogout={handleLogout} myPage={myPage}/>
       <Routes>
         <Route path="/" element={<SearchFetch />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/join" element={<Join />} />
         <Route path="/login"  element={<Login onLoginSuccess={handleLoginSuccess} />} />
+        <Route path="/mypage"  element={<MyPage userId={JSON.stringify(sessionStorage.loginId)} />} />
       </Routes>
     </>
   );

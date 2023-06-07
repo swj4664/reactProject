@@ -81,16 +81,17 @@ app.post("/join", (req, res) => {
             console.log('성공');
         }
     })
-}); 
-
+});
 
 app.post("/login", (req, res) => {
+    console.log(req.sessionID);
+    console.log(req.session);
     let id = req.body.id
     let pw = req.body.pw
-
+    // console.log(id)
     db.query(`select id, count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
         if(result[0]['count(id)'] === 1){
-            req.session.user = result[0].id;
+            req.session.user = result;
             res.send(result);
         } else {
             console.log('실패')
@@ -99,8 +100,18 @@ app.post("/login", (req, res) => {
 })
 
 
-app.get("/get-user-id", (req, res) => {
-    let user = req.session.user;
-    res.send({ userId: user }); // 세션 값 반환
-})
-
+// app.get("/", (req, res) => {
+//     console.log('aa');
+//     console.log(req.session);
+//     console.log(req.body);
+//     const sessionId = req.cookies["connect.sid"]; // 세션 ID를 쿠키에서 추출
+//     const sessionData = req.sessionStore.get(sessionId); // 세션 ID를 사용하여 세션 데이터 조회
+  
+//     if (sessionData && sessionData.user) {
+//       const user = sessionData.user;
+//       res.send(`Welcome ${user.name}!`);
+//       console.log(`Welcome ${user.name}!`)
+//     } else {
+//       res.send("로그인이 필요합니다.");
+//     }
+//   });

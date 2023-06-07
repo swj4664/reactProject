@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+
+
 function Join() {
   let [id, setId] = useState('')
   let [pw, setPw] = useState('')
@@ -12,10 +15,13 @@ function Join() {
             id: id,
             pw: pw
         }
-      )
-    }catch(err){
-      console.log(err);
+      );
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+
   return (
     <>
       <div>회원가입</div>
@@ -23,7 +29,7 @@ function Join() {
       <input type="password" value={pw} onChange={(e) => { setPw(e.target.value); }} />
       <button onClick={() => { post(); }}>회원가입</button>
     </>
-      )
-  }
+  )
 }
-export default Join
+
+export default Join;
