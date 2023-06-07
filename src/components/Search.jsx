@@ -101,7 +101,6 @@ function SearchFetch() {
   return (
     <>
       {/* <Join /> */}
-
       <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
       <div className='content'>
         <div className='input_G'>

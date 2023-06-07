@@ -16,11 +16,6 @@ function Join() {
             pw: pw
         }
       );
-      // if (!completed) {
-      // console.log(result.data)
-      // console.log(id)
-      // } else {
-      // }
     } catch (error) {
       console.log(error);
     }

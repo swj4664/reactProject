@@ -1,9 +1,9 @@
 const express = require("express"); // npm i express | yarn add express
+const session = require('express-session');
 const cors    = require("cors");    // npm i cors | yarn add cors
 const mysql   = require("mysql");   // npm i mysql | yarn add mysql
 const app     = express();
 const PORT    = 3001; // 포트번호 설정
-const session = require('express-session');
 const Memorystore = require('memorystore')(session)
 
 // MySQL 연결
@@ -16,14 +16,14 @@ const db = mysql.createPool({
 
 
 app.use(cors({
-    origin: "*",                // 출처 허용 옵션
-    credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    origin: 'http://localhost:3000', // 클라이언트의 도메인 주소
+    credentials: true, // 쿠키를 포함한 요청을 허용
     optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
 }))
 
 let maxAge = 60*1000;
 app.use(session({
-    secret: '1111', // 세션에 사용할 암호화 키
+    secret: 'song', // 세션에 사용할 암호화 키
     resave: false,
     saveUninitialized: true,
     store: new Memorystore({ checkPeriod: maxAge  }),  // 서버를 저장할 공간 설정,
@@ -41,6 +41,9 @@ app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });
 
+/**
+ * @brief 도서관검색 비동기통신
+ */
 app.get("/data", (req, res) => {
     let searchType = req.query.type;
     let sqlQuery ="";
@@ -55,7 +58,10 @@ app.get("/data", (req, res) => {
     });
 }); 
 
-let bodyParser = require('body-parser')
+/**
+ * @brief 회원가입 비동기통신
+ */
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.post("/join", (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -75,20 +81,18 @@ app.post("/join", (req, res) => {
             console.log('성공');
         }
     })
-}); 
-
+});
 
 app.post("/login", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    console.log(req.sessionID);
+    console.log(req.session);
     let id = req.body.id
     let pw = req.body.pw
-
-    db.query(`select count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
+    // console.log(id)
+    db.query(`select id, count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
         if(result[0]['count(id)'] === 1){
-            req.session.userId = id;
-            console.log('성공');
-            // res.send(id);
-                res.redirect('/header');
+            req.session.user = result;
+            res.send(result);
         } else {
             console.log('실패')
         }
@@ -96,8 +100,18 @@ app.post("/login", (req, res) => {
 })
 
 
-app.get("/header", (req, res) => {
-    let aaa = req.session.userId;
-    console.log(aaa);
-})
-
+// app.get("/", (req, res) => {
+//     console.log('aa');
+//     console.log(req.session);
+//     console.log(req.body);
+//     const sessionId = req.cookies["connect.sid"]; // 세션 ID를 쿠키에서 추출
+//     const sessionData = req.sessionStore.get(sessionId); // 세션 ID를 사용하여 세션 데이터 조회
+  
+//     if (sessionData && sessionData.user) {
+//       const user = sessionData.user;
+//       res.send(`Welcome ${user.name}!`);
+//       console.log(`Welcome ${user.name}!`)
+//     } else {
+//       res.send("로그인이 필요합니다.");
+//     }
+//   });
