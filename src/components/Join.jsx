@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-function Join(){
-    const [id, setId] = useState("");
-    const [password, setPassword] = useState("");
 
 
 
@@ -18,6 +15,11 @@ function Join() {
             id: id,
             pw: pw
         }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
   return (
@@ -29,4 +31,5 @@ function Join() {
     </>
   )
 }
-export default Join
+
+export default Join;
