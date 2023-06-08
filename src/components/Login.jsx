@@ -22,11 +22,12 @@ function Login({ onLoginSuccess }) {
       );
       let sessionStorage = window.sessionStorage;
       const data = result.data[0].id;
-      
+      const hashPw = result.data[0].password;
+      console.log(result.data[0]);
 
       setloginId(data);
       sessionStorage.setItem("loginId", id);
-      // sessionStorage.setItem("loginPw", pw);
+      sessionStorage.setItem("loginPw", hashPw);
 
         console.log(pw)
       onLoginSuccess(data); // 로그인 성공 시 처리하는 함수 호출
