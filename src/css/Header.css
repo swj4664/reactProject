@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header_menu {
+    display: flex;
+    align-items: center;
+    background: #6ed4ad;
+    color: white;
+}
+
+.logo {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.logo img {
+    width: 100px;
+}
+
+.welcome {
+    flex: 1;
+}
+
+.welcome p {
+    text-align: center;
+}
+
+.log_menu {
+    flex: 1;
+    position: relative;
+    text-align: right;
+    color: white;
+}
+
+.log_menu a {
+    display: inline-block;
+    margin: 14px 20px;
+    font-weight: 700;
+}
+
+.log_menu .header_btn {
+    display: inline-block;
+    cursor: pointer;
+    margin: 14px 20px;
+    font-weight: 700;
+}

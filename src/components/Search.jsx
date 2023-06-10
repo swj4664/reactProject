@@ -55,7 +55,7 @@ function SearchFetch() {
     };
     //query가 변할때 useEffect를 실행해야하는 시점이다
   }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
-  
+
   const handleQueryChange = (event) => {
     // console.log(event);
     setQuery(event.target.value);
@@ -101,14 +101,16 @@ function SearchFetch() {
   return (
     <>
       {/* <Join /> */}
-      <div className='title'><img src="http://localhost:3000/img/title.png" alt="" /></div>
+      <div className='title'>
+        <img src="http://localhost:3000/img/title.png" alt="" />
+      </div>
       <div className='content'>
         <div className='input_G'>
           <select onChange={handleSelectChange} >
             <option value="bookNn">도서관명</option>
             <option value="region">지역명</option>
           </select>
-          <input className='input_box' placeholder='찾으시는 도서관명을 입력해주세요.' value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
+          <input className='input_box' placeholder={Selected == 'bookNn' ? '찾으시는 도서관명을 입력해주세요.' : '찾으시는 지역명을 입력해주세요.'} value={query} onChange={(e) => { setQuery(e.target.value); setCurrentPage(1); handleQueryChange(e) }} />
           <img src="http://localhost:3000/img/search.png" alt="" />
         </div>
 

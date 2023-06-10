@@ -147,9 +147,6 @@ app.post("/mypage", (req, res) => {
                     res.send(result);
                 }
             })
-    
         }
-       
     })
-    
 })

@@ -41,7 +41,7 @@ function Kakao(props) {
     }, [])
 
     return (
-        <div id="map" style={{ width: 600 + 'px', height: 500 + 'px' }}></div>
+        <div id="map" style={{ width: 800 + 'px', height: 400 + 'px' }}></div>
     )
 }
 
