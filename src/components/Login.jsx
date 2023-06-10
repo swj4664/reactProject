@@ -28,7 +28,7 @@ function Login({ onLoginSuccess }) {
       sessionStorage.setItem("loginId", id);
       sessionStorage.setItem("loginPw", hashPw);
 
-        console.log(pw)
+      console.log(pw)
       onLoginSuccess(data); // 로그인 성공 시 처리하는 함수 호출
     } catch (error) {
       console.log(error);
@@ -37,17 +37,26 @@ function Login({ onLoginSuccess }) {
 
   return (
     <div>
-      { JSON.stringify(sessionStorage.loginId) !== null ? (
+      {JSON.stringify(sessionStorage.loginId) == null ? (
         <>
-          <div>로그인</div>
-          <input type="text" value={id} onChange={(e) => { setId(e.target.value); }} />
-          <input type="password" value={pw} onChange={(e) => { setPw(e.target.value); }} />
-          <button onClick={post}>로그인</button>
-          <a href='http://localhost:3000/join'>회원가입</a>
-          {loginId && <div>{loginId}님 환영합니다.</div>}
-          {JSON.stringify(sessionStorage.loginId)}
+          <div id='login'>
+            <div className='login_box'>
+              <div className='login_logo'>
+                {/* <img src="" alt="" /> */}
+                logo
+              </div>
+              <div className='login_input'>
+                <input type="text" value={id} placeholder='아이디' onChange={(e) => { setId(e.target.value); }} />
+                <p className='id_validate validate'>6~10자리의 영문, 영문+숫자를 입력해주세요.</p>
+                <input type="password" value={pw} placeholder='비밀번호' onChange={(e) => { setPw(e.target.value); }} />
+                <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p>
+              </div>
+              <div className='login_btn' onClick={post}><p>로그인</p></div>
+              <div className='join_btn'><a href='http://localhost:3000/join'>회원가입</a></div>
+            </div>
+          </div>
         </>
-        ) : null
+      ) : null
       }
     </div>
 

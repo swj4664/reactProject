@@ -193,6 +193,15 @@ function Detail() {
   const handleLink = () => {
     window.location.href = `https://map.kakao.com/link/to/${name},${latitude},${longitude}`;
   };
+
+  const libraryAdd = () => {
+    if (JSON.stringify(sessionStorage.loginId) == null) {
+      alert('로그인 후 이용해주세요.')
+    } else {
+      alert('개발 중')
+    }
+  }
+
   return (
     <div className='container'>
       <div className="kakaoMap-container">
@@ -209,7 +218,7 @@ function Detail() {
           <div className='detail-holiday'><img src="http://localhost:3000/img/day.svg" alt="" /><span className='detail-title'>휴관일</span><span className="detail-content">{closeDay}</span></div>
         </div>
         <div className="detail-btn">
-          <button className="detail-concern">관심+</button>
+          <button className="detail-concern" onClick={libraryAdd}>관심+</button>
           <button className="detail-kakaobtn" onClick={handleLink}>길찾기</button>
         </div>
       </div>
