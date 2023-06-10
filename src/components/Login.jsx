@@ -42,8 +42,7 @@ function Login({ onLoginSuccess }) {
           <div id='login'>
             <div className='login_box'>
               <div className='login_logo'>
-                {/* <img src="" alt="" /> */}
-                logo
+                <img src="http://localhost:3000/img/title.png" alt="" />
               </div>
               <div className='login_input'>
                 <input type="text" value={id} placeholder='아이디' onChange={(e) => { setId(e.target.value); }} />

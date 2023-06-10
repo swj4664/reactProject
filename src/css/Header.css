@@ -13,6 +13,7 @@ a {
     align-items: center;
     background: #6ed4ad;
     color: white;
+    z-index: 999;
 }
 
 .logo {

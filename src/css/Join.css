@@ -1,25 +1,48 @@
-#login {
+#join {
     display: flex;
     justify-content: center;
     align-items: center;
     height: calc(100vh - 46.86px);
 }
 
-#login .login_box{
+
+#join .join_box{
     display: flex;
     flex-direction: column;
 }
 
-#login .login_logo {
+#join .join_title {
     text-align: center;
-}
-
-#login .login_logo img{
-    width: 300px;
     margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2e2e2e;
+    letter-spacing: 5px;
 }
 
-#login .login_input input {
+#join .join_input {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+#join .join_input .inputTitle_g {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#join .join_input .inputTitle_g p {
+    flex: 1;
+    margin-top: 16px;
+    margin-right: 16px;
+}
+
+#join .join_input .input_g {
+    flex: 1;
+}
+
+
+#join .join_input input {
     display: block;
     width: 400px;
     height: 50px;
@@ -28,13 +51,13 @@
     padding: 0 20px;
 }
 
-#login .login_input .validate {
+#join .join_input .validate {
     height: 30px;
     margin: 10px;
     color: #6ed4ad;
 }
 
-#login .login_btn {
+#join .join_btn {
     margin-bottom: 30px;
     color: white;
     font-size: 18px;
@@ -44,10 +67,6 @@
     cursor: pointer;
 }
 
-#login .login_btn p {
+#join .join_btn p {
     padding: 18px;
-}
-
-#login .join_btn {
-    text-align: center;
 }
