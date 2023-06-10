@@ -7,7 +7,6 @@ import Login from '../src/components/Login';
 import Header from '../src/components/Header';
 import { BrowserRouter as Router, Route, Routes, useNavigate  } from 'react-router-dom';
 
-
 function App() {
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
@@ -39,6 +38,5 @@ function App() {
     </>
   );
 }
-
 
 export default App;
