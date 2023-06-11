@@ -30,6 +30,10 @@ table {
     font-size: 50px;
 }
 
+.title img {
+    width: 420px;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -43,7 +47,7 @@ table {
 }
 
 .content .input_G .input_box {
-    width: 460px;
+    width: 560px;
     height: 60px;
     border-radius: 60px;
     font-size: 20px;
@@ -66,14 +70,18 @@ table {
 
 .content .input_G img {
     position: absolute;
-    top: 50%;
-    left: 148px;
+    top: 48%;
+    left: 20px;
     transform: translateY(-50%);
     width: 30px;
     height: 30px;
 }
 
 .content .input_G select {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     margin-right: 30px;
     font-size: 16px;
     border: none;
@@ -181,27 +189,27 @@ table {
 /*상세페이지start*/
 .container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    /* 세로 중앙 정렬 */
-    max-width: 1200px;
-    /* 원하는 너비로 조정하세요 */
-    margin: 0 auto;
-    /* 가운데 정렬을 위한 마진 설정 */
-    height: 100vh;
+    padding: 80px;
 }
 
 .kakaoMap-container {
     flex: 1 1 0;
-    padding: 20px;
+    
+}
+
+#map {
+    border-radius: 20px;
+    border: 2px solid #62d4ad;
 }
 
 .content-container {
     display: flex;
     flex: 1 1 0;
     flex-direction: column;
-    padding: 20px;
-    height: 540px;
+    width: 800px;
+    padding: 50px 20px;
 }
 
 .content-container h2 {
@@ -215,16 +223,11 @@ table {
     width: 80px;
 }
 
-.detail-top {
-    flex: 1 1 0;
-    padding-bottom: 30px;
-}
-
 .detail-middle {
     display: flex;
     flex-direction: column;
-    flex: 3 1 0;
     font-size: 18px;
+    padding: 40px 0;
 }
 
 
@@ -244,18 +247,19 @@ table {
     align-items: center;
 }
 
-.detail-middle .detail-holiday img{
-    width: 45px;
-    height: 45px;
+.detail-middle img{
+    width: 40px;
+    height: 40px;
 }
 
 
 /*버튼*/
-.detail-btn {}
+.detail-btn {
+    text-align: right;
+}
 
 .detail-content a {
     color: #000;
-    
 }
 
 .detail-phonenumber {
@@ -265,14 +269,15 @@ table {
 /*관심*/
 .detail-concern {
     border: 2px solid var(--point-color);
-    background-color: #fff;
     margin-right: 1rem;
+    background: white;
     color: rgb(98 212 173);
-    cursor: pointer;
-    width: 30%;
+    width: 100px;
     height: 54px;
     font-size: 18px;
     font-weight: 700;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 /*길찾기*/
@@ -280,11 +285,12 @@ table {
     background-color: rgb(98 212 173);
     border: none;
     color: #fff;
-    cursor: pointer;
-    width: 65%;
-    font-size: 18px;
+    width: 200px;
     height: 54px;
+    font-size: 18px;
     font-weight: 700;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 /*상세페이지End*/

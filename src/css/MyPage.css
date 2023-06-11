@@ -1,0 +1,77 @@
+#myPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 46.86px);
+}
+
+#myPage .myPage_box{
+    display: flex;
+    flex-direction: column;
+}
+
+#myPage .myPage_title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2e2e2e;
+    letter-spacing: 5px;
+}
+
+#myPage .myPage_input {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+#myPage .myPage_input .inputTitle_g {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#myPage .myPage_input .inputTitle_g p {
+    flex: 1;
+    margin-top: 16px;
+    margin-right: 16px;
+}
+
+#myPage .myPage_input .input_g {
+    flex: 1;
+}
+
+#myPage .myPage_input .input_g div{
+    padding-top: 16px;
+    height: 100px;
+}
+
+
+
+#myPage .myPage_input input {
+    display: block;
+    width: 400px;
+    height: 50px;
+    border: 1px solid rgb(158, 158, 158);
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+#myPage .myPage_input .validate {
+    height: 30px;
+    margin: 10px;
+    color: #6ed4ad;
+}
+
+#myPage .modify_btn {
+    margin-bottom: 30px;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    background: #6ed4ad;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#myPage .modify_btn p {
+    padding: 18px;
+}

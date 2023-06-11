@@ -62,56 +62,91 @@ app.get("/data", (req, res) => {
  * @brief 회원가입 비동기통신
  */
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const saltRounds = 2; // 솔트(salt)를 생성할 라운드 수
+
 app.use(bodyParser.json());
 app.post("/join", (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
+    
     let id = req.body.id
     let pw = req.body.pw
-    let sqlQuery = "";
-    sqlQuery = `SELECT * FROM users`;
-    
-    db.query(sqlQuery, (err, result) => {
-        res.send(result);
-    });
-
-    db.query(`insert into users (id, password) values ('${id}','${pw}')`, (err, result)=> {
-        if(err){
-            console.log('실패')
-        } else {
-            console.log('성공');
-        }
-    })
+    bcrypt.hash(pw, saltRounds, (err, hash) => {
+        if (err) {
+            // 암호화 실패
+            // 오류 처리 로직을 추가하세요.
+            console.log('실패: ' + err);
+          } else {
+            console.log('성공!');
+            const hashedPassword = hash;
+            let sqlQuery = `insert into users (id, password) values ('${id}','${hashedPassword}')`;
+        // 해시된 비밀번호를 데이터베이스에 저장하거나 처리하는 로직을 추가하세요.
+            db.query(sqlQuery, (err, result)=> {
+                if(err){
+                    console.log('실패')
+                    console.log(result);
+                    console.log(err);
+                } else {
+                    console.log('성공');
+                    res.send(result);
+                }
+            })
+          }
+        }); 
+   
 });
 
 app.post("/login", (req, res) => {
-    console.log(req.sessionID);
-    console.log(req.session);
     let id = req.body.id
     let pw = req.body.pw
-    // console.log(id)
-    db.query(`select id, count(id) from users where id='${id}' and password='${pw}'`, (err, result)=> {
-        if(result[0]['count(id)'] === 1){
-            req.session.user = result;
-            res.send(result);
+    let pwHash = ''
+db.query(`select password from users where id='${id}'`, (err, result)=> {
+    if(err || result == ''){
+        console.log('실패: ' + err)
+    }else {
+        console.log('결과: ' + result[0].password);
+        pwHash = result[0].password
+    }
+
+    bcrypt.compare(pw, pwHash, (err, isMatch) => {
+        console.log(isMatch)
+        if(isMatch){
+            db.query(`select id, password, count(id) from users where id='${id}' and password='${pwHash}'`, (err, result)=> {
+                if(result[0]['count(id)'] === 1){
+                    req.session.user = result;
+                    res.send(result);
+                } else {
+                    console.log('아이디가 틀림')
+                }
+            })
         } else {
-            console.log('실패')
+            console.log('아이디 비밀번호 다름')
         }
-    })
+})
 })
 
 
-// app.get("/", (req, res) => {
-//     console.log('aa');
-//     console.log(req.session);
-//     console.log(req.body);
-//     const sessionId = req.cookies["connect.sid"]; // 세션 ID를 쿠키에서 추출
-//     const sessionData = req.sessionStore.get(sessionId); // 세션 ID를 사용하여 세션 데이터 조회
-  
-//     if (sessionData && sessionData.user) {
-//       const user = sessionData.user;
-//       res.send(`Welcome ${user.name}!`);
-//       console.log(`Welcome ${user.name}!`)
-//     } else {
-//       res.send("로그인이 필요합니다.");
-//     }
-//   });
+    
+})
+
+
+app.post("/mypage", (req, res) => {
+    let pwCh = req.body.pwCh
+    let idCh = req.body.idCh
+    console.log(pwCh, idCh)
+
+    bcrypt.hash(pwCh, saltRounds, (err, hash) => {
+        if(err){
+        } else { 
+            let hashedPassword = hash
+            db.query(`update users set password = '${hashedPassword}' where id='${idCh}'`, (err, result)=> {
+                if(err){
+                    console.log('실패')
+                }else {
+                    console.log('성공: ' + result[0])
+                    res.send(result);
+                }
+            })
+        }
+    })
+})
