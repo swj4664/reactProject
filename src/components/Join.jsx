@@ -10,9 +10,29 @@ function Join() {
   let [pw, setPw] = useState('')
   const navigate = useNavigate();
 
+  // id 유효성체크
+  const isValidId = () => {
+    const re = /^[a-zA-Z0-9]{6,10}$/;
+    return re.test(id);
+  }
+  // pw 유효성체크
+  const isValidPw = () => {
+    const re = /^[a-zA-Z0-9!@#$%^&*()_+{}:"<>?,.\/;'[]|`~]{10,20}$/;
+    return re.test(pw);
+  }
+
   async function post() {
 
     try {
+      if (!isValidId()) {
+        alert('아이디는 6~10자리의 영문, 영문+숫자를 입력해주세요.');
+        return;
+      }
+  
+      if (!isValidPw()) {
+        alert('비밀번호는 10~20자리의 영문+숫자+특수문자를 입력해주세요.');
+        return;
+      }
       const result = await axios.post(
         'http://localhost:3001/join',
         {
