@@ -7,6 +7,7 @@ function MyPage({ userId, userPw }) {
     let [pwCh, setPwCh] = useState('')
     let [pwCh2, setPwCh2] = useState('')
     let [idCh, setidCh] = useState('')
+    let mypageId = JSON.stringify(sessionStorage.loginId)
 
     async function pwChange() {
         if (pwCh == pwCh2) {
@@ -40,7 +41,7 @@ function MyPage({ userId, userPw }) {
                                     <p>비밀번호 확인</p>
                                 </div>
                                 <div className='input_g'>
-                                    <div>{JSON.parse(sessionStorage.loginId)}</div>
+                                    <div>{JSON.parse(mypageId)}</div>
                                     <input type='password' value={JSON.stringify(sessionStorage.loginPw)} disabled></input>
                                     <p className='validate'></p>
                                     <input type='password' onChange={(e) => setPwCh(e.target.value)}></input>
