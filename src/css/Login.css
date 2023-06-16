@@ -26,6 +26,7 @@
     border: 1px solid rgb(158, 158, 158);
     border-radius: 10px;
     padding: 0 20px;
+    margin-bottom: 30px;
 }
 
 #login .login_input .validate {

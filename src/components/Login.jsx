@@ -42,9 +42,9 @@ function Login({ onLoginSuccess }) {
               </div>
               <div className='login_input'>
                 <input type="text" value={id} placeholder='아이디' onChange={(e) => { setId(e.target.value); }}  onKeyDown={(e)=> e.key == 'Enter' ? post() : null} />
-                <p className='id_validate validate'>6~10자리의 영문, 영문+숫자를 입력해주세요.</p>
+                {/* <p className='id_validate validate'>6~10자리의 영문, 영문+숫자를 입력해주세요.</p> */}
                 <input type="password" value={pw} placeholder='비밀번호' onChange={(e) => { setPw(e.target.value); }}  onKeyDown={(e)=> e.key == 'Enter' ? post() : null} />
-                <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p>
+                {/* <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p> */}
               </div>
               <div className='login_btn' onClick={post}><p>로그인</p></div>
               <div className='join_btn'><a href='http://localhost:3000/join'>회원가입</a></div>

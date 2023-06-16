@@ -28,6 +28,10 @@ function Join() {
     }
   }
 
+  function idChk(){
+    alert('d')
+  }
+
 
   return (
     <>
@@ -43,7 +47,7 @@ function Join() {
                   <p>비밀번호 확인</p>
                 </div>
                 <div className='input_g'>
-                  <input type="text" value={id} onChange={(e) => { setId(e.target.value); }} />
+                  <input type="text" value={id} onChange={(e) => { setId(e.target.value); idChk();}} />
                   <p className='id_validate validate'>6~10자리의 영문, 영문+숫자를 입력해주세요.</p>
                   <input type="password" value={pw} onChange={(e) => { setPw(e.target.value); }} />
                   <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p>
