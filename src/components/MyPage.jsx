@@ -27,13 +27,15 @@ function MyPage({ userId, userPw }) {
         }
     }
 
-    let pwChk_msg2 = document.querySelector('.pw_validate2')
-    if (pwCh == pwCh2 && pwCh !== '') {
-        pwChk_msg2.textContent = '비밀번호가 일치합니다.'
-        pwChk_msg2.style.color = '#6ed4ad'
-    } else {
-        pwChk_msg2.textContent = '일치하는 비밀번호를 입력해주세요.'
-        pwChk_msg2.style.color = '#afafaf'
+    function pwChk2(pw) {
+        let pwChk_msg2 = document.querySelector('.pw_validate2')
+        if (pwCh == pw && pwCh !== '') {
+            pwChk_msg2.textContent = '비밀번호가 일치합니다.'
+            pwChk_msg2.style.color = '#6ed4ad'
+        } else {
+            pwChk_msg2.textContent = '일치하는 비밀번호를 입력해주세요.'
+            pwChk_msg2.style.color = '#afafaf'
+        }
     }
 
 
@@ -74,7 +76,7 @@ function MyPage({ userId, userPw }) {
                                     <p className='validate'></p>
                                     <input type='password' onChange={(e) => { setPwCh(e.target.value); pwChk(e.target.value); }}></input>
                                     <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p>
-                                    <input type='password' onChange={(e) => setPwCh2(e.target.value)}></input>
+                                    <input type='password' onChange={(e) => { setPwCh2(e.target.value); pwChk2(e.target.value); }}></input>
                                     <p className='pw_validate2 validate'>비밀번호가 일치합니다.</p>
                                 </div>
                             </div>
