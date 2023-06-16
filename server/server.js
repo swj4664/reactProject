@@ -100,33 +100,32 @@ app.post("/login", (req, res) => {
     let id = req.body.id
     let pw = req.body.pw
     let pwHash = ''
-db.query(`select password from users where id='${id}'`, (err, result)=> {
-    if(err || result == ''){
-        console.log('실패: ' + err)
-    }else {
-        console.log('결과: ' + result[0].password);
-        pwHash = result[0].password
-    }
-
-    bcrypt.compare(pw, pwHash, (err, isMatch) => {
-        console.log(isMatch)
-        if(isMatch){
-            db.query(`select id, password, count(id) from users where id='${id}' and password='${pwHash}'`, (err, result)=> {
-                if(result[0]['count(id)'] === 1){
-                    req.session.user = result;
-                    res.send(result);
-                } else {
-                    console.log('아이디가 틀림')
-                }
-            })
-        } else {
-            console.log('아이디 비밀번호 다름')
+    db.query(`select password from users where id='${id}'`, (err, result)=> {
+        if(err || result == ''){
+            console.log('실패: ' + err)
+        }else {
+            console.log('결과: ' + result[0].password);
+            pwHash = result[0].password
         }
-})
-})
 
-
-    
+        bcrypt.compare(pw, pwHash, (err, isMatch) => {
+            console.log(isMatch)
+            if(isMatch){
+                db.query(`select id, password, count(id) from users where id='${id}' and password='${pwHash}'`, (err, result)=> {
+                    if(result[0]['count(id)'] === 1){
+                        req.session.user = result;
+                        res.send(result);
+                    } else {
+                        res.send({'result': 'F'});
+                        console.log('아이디가 틀림')
+                    }
+                })
+            } else {
+                res.send({'result': 'F'});
+                console.log('아이디 비밀번호 다름')
+            }
+        })
+    })
 })
 
 

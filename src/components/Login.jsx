@@ -8,24 +8,43 @@ function Login({ onLoginSuccess }) {
   let [loginId, setloginId] = useState('')
   let [currentId, setCurrentId] = useState('')
 
+  // id 유효성체크
+  const isValidId = () => {
+    const re = /^[a-zA-Z0-9]{6,10}$/;
+    return re.test(id);
+  }
+    // pw 유효성체크
+  const isValidPw = () => {
+    const re = /^[a-zA-Z0-9!@#$%^&*()_+{}:"<>?,.\/;'[]|`~]{10,20}$/;
+    return re.test(pw);
+  }
   async function post() {
     try {
+      if (!isValidId()) {
+        alert('아이디는 6~10자리의 영문, 영문+숫자를 입력해주세요.');
+        return;
+      }
+  
+      if (!isValidPw()) {
+        alert('비밀번호는 10~20자리의 영문+숫자+특수문자를 입력해주세요.');
+        return;
+      }
+
       const result = await axios.post(
         'http://localhost:3001/login',
         { id: id, pw: pw },
         { withCredentials: true }
       );
+      console.log("송원선"+result.data[0]);
       let sessionStorage = window.sessionStorage;
       const data = result.data[0].id;
       const hashPw = result.data[0].password;
-      console.log(result.data[0]);
 
       setloginId(data);
       sessionStorage.setItem("loginId", id);
       sessionStorage.setItem("loginPw", hashPw);
 
       onLoginSuccess(data); // 로그인 성공 시 처리하는 함수 호출
-        console.log(data);
     } catch (error) {
       console.log(error);
     }
