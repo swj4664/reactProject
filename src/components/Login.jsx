@@ -15,7 +15,7 @@ function Login({ onLoginSuccess }) {
   }
     // pw 유효성체크
   const isValidPw = () => {
-    const re = /^[a-zA-Z0-9!@#$%^&*()_+{}:"<>?,.\/;'[]|`~]{10,20}$/;
+    const re = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{10,20}$/;
     return re.test(pw);
   }
   async function post() {
