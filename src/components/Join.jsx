@@ -85,6 +85,7 @@ function Join() {
 
   function pwChk(pw){
     let pwChk_msg = document.querySelector('.pw_validate')
+    pwChk2();
     if(!isValidPw2(pw)){
       pwChk_msg.textContent='10~20자리의 영문+숫자+특수문자를 입력해주세요.'
       pwChk_msg.style.color='#afafaf'
@@ -94,14 +95,16 @@ function Join() {
     }
   }
 
-    let pwChk_msg = document.querySelector('.pw_validate2')
-    if(pw==pw2){
-      pwChk_msg.textContent='비밀번호가 일치합니다.'
-      pwChk_msg.style.color='#6ed4ad'
+  function pwChk2(i){
+    let pwChk_msg2 = document.querySelector('.pw_validate2')
+    if(pw==i){
+      pwChk_msg2.textContent='비밀번호가 일치합니다.'
+      pwChk_msg2.style.color='#6ed4ad'
     } else {
-      pwChk_msg.textContent='일치하는 비밀번호를 입력해주세요.'
-      pwChk_msg.style.color='#afafaf'
+      pwChk_msg2.textContent='일치하는 비밀번호를 입력해주세요.'
+      pwChk_msg2.style.color='#afafaf'
     }
+  }
 
 
   return (
@@ -122,7 +125,7 @@ function Join() {
                   <p className='id_validate validate'>6~10자리의 영문, 영문+숫자를 입력해주세요.</p>
                   <input type="password" value={pw} maxLength={20} onChange={(e) => { setPw(e.target.value); pwChk(e.target.value);}} />
                   <p className='pw_validate validate'>10~20자리의 영문+숫자+특수문자를 입력해주세요.</p>
-                  <input type="password" value={pw2} maxLength={20} onChange={(e) => { setPw2(e.target.value);}} />
+                  <input type="password" value={pw2} maxLength={20} onChange={(e) => { setPw2(e.target.value); pwChk2(e.target.value)}} />
                   <p className='pw_validate2 validate'>일치하는 비밀번호를 입력해주세요.</p>
                 </div>
               </div>
